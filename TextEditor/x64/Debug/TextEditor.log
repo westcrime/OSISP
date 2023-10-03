@@ -1,0 +1,5 @@
+﻿  TextEditor.cpp
+C:\OSISP\TextEditor\TextEditor.cpp(238,16): warning C4244: инициализация: преобразование "WPARAM" в "int", возможна потеря данных
+C:\OSISP\TextEditor\TextEditor.cpp(62,13): warning C4101: msg: неиспользованная локальная переменная
+C:\OSISP\TextEditor\TextEditor.cpp(314): warning C4715: WindowProc: значение возвращается не при всех путях выполнения
+  TextEditor.vcxproj -> C:\OSISP\TextEditor\x64\Debug\TextEditor.exe
