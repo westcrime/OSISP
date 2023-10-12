@@ -4,7 +4,8 @@
 
 #include <windows.h>
 #include "Archiver.h"
-#include "Globals.h"
+#include "ExtractWindow.h"
+#include "ArchivateWindow.h"
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
@@ -43,6 +44,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     {
         return 0;
     }
+
+    archivateWindow = ArchivateWindow(mainWindowHwnd, mainHinstance);
+    extractWindow = ExtractWindow(mainWindowHwnd, mainHinstance);
 
     extractButton = CreateWindowW(L"BUTTON", L"Извлечь", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
         100, 100, 100, 100, hwnd, (HMENU)extract, hInstance, NULL);
@@ -118,12 +122,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
         case extract:
         {
-            ShowExtractionWindow(mainWindowHwnd, mainHinstance);
+            ShowWindow(extractWindow.Window(), SW_SHOW);
             break;
         }
         case archive:
         {
-            ShowArchivationWindow(mainWindowHwnd, mainHinstance);
+            ShowWindow(archivateWindow.Window(), SW_SHOW);
             break;
         }
         default:

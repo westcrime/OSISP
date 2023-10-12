@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClCompile Include="ArchivationFunctions.cpp" />
     <ClCompile Include="Archiver.cpp" />
+    <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="ExtractWindow.cpp" />
     <ClCompile Include="ArchivateWindow.cpp" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include <zlib.h>
 #include <Windows.h>
+#include <thread>
 
 bool compressFile(HWND hwnd, LPCWSTR sourceFilePath, const char* destFilePath) {
     HANDLE hSourceFile = CreateFileW(sourceFilePath, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -19,17 +20,21 @@ bool compressFile(HWND hwnd, LPCWSTR sourceFilePath, const char* destFilePath) {
     char buffer[1024];
     DWORD bytesRead;
 
-    while (ReadFile(hSourceFile, buffer, sizeof(buffer), &bytesRead, NULL) && bytesRead > 0) {
-        if (gzwrite(destFile, buffer, bytesRead) == 0) {
-            MessageBox(hwnd, L"Ошибка при записи данных в архив", L"Архивация", MB_ICONERROR);
-            gzclose(destFile);
-            CloseHandle(hSourceFile);
-            return false;
+    std::thread writerThread([&]() {
+        while (ReadFile(hSourceFile, buffer, sizeof(buffer), &bytesRead, NULL) && bytesRead > 0) {
+            if (gzwrite(destFile, buffer, bytesRead) == 0) {
+                MessageBox(hwnd, L"Ошибка при записи данных в архив", L"Архивация", MB_ICONERROR);
+                gzclose(destFile);
+                CloseHandle(hSourceFile);
+                return;
+            }
         }
-    }
 
-    gzclose(destFile);
-    CloseHandle(hSourceFile);
+        gzclose(destFile);
+        CloseHandle(hSourceFile);
+        });
+
+    writerThread.join();
 
     return true;
 }
@@ -53,17 +58,21 @@ bool extractFile(HWND hwnd, const char* sourceArchivePath, LPCWSTR destFilePath)
     int bytesRead;
     DWORD bytesWritten;
 
-    while ((bytesRead = gzread(gzFile, buffer, sizeof(buffer))) > 0) {
-        if (!WriteFile(hFile, buffer, bytesRead, &bytesWritten, NULL) || bytesWritten != bytesRead) {
-            MessageBox(hwnd, L"Ошибка при записи данных в файл", L"Извлечение", MB_ICONERROR);
-            gzclose(gzFile);
-            CloseHandle(hFile);
-            return false;
+    std::thread readerThread([&]() {
+        while ((bytesRead = gzread(gzFile, buffer, sizeof(buffer))) > 0) {
+            if (!WriteFile(hFile, buffer, bytesRead, &bytesWritten, NULL) || bytesWritten != bytesRead) {
+                MessageBox(hwnd, L"Ошибка при записи данных в файл", L"Извлечение", MB_ICONERROR);
+                gzclose(gzFile);
+                CloseHandle(hFile);
+                return;
+            }
         }
-    }
 
-    gzclose(gzFile);
-    CloseHandle(hFile);
+        gzclose(gzFile);
+        CloseHandle(hFile);
+        });
+
+    readerThread.join();
 
     return true;
 }
