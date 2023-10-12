@@ -106,8 +106,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         int x1 = 50;
         int x2 = 560;
-        int y1 = 50;
-        int y2 = 100;
+        int y1 = 200;
+        int y2 = 250;
         int spacing = 50;
 
         PAINTSTRUCT ps;
@@ -125,6 +125,28 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // Рисуем прямоугольник с черной обводкой
         rectMemoryOutline = { x1 + (x2 - x1) + spacing, y1, x2 + (x2 - x1) + spacing, y2}; // Координаты и размеры прямоугольника
         Rectangle(hdc, rectMemoryOutline.left, rectMemoryOutline.top, rectMemoryOutline.right, rectMemoryOutline.bottom);
+
+        // Рисуем прямоугольник с черной обводкой
+        rectWorkloadGraphOutline = { 10, 10, 510, 110 }; // Координаты и размеры прямоугольника
+        Rectangle(hdc, rectWorkloadGraphOutline.left, rectWorkloadGraphOutline.top, rectWorkloadGraphOutline.right, rectWorkloadGraphOutline.bottom);
+        // Рисуем прямоугольник с черной обводкой
+        rectMemoryGraphOutline = { 550, 10, 1050, 110 }; // Координаты и размеры прямоугольника
+        Rectangle(hdc, rectMemoryGraphOutline.left, rectMemoryGraphOutline.top, rectMemoryGraphOutline.right, rectMemoryGraphOutline.bottom);
+        if (!(workload_graph_points.size() != 9 || memory_graph_points.size() != 9))
+        {
+            HDC hdc2 = GetDC(hwnd);
+            MoveToEx(hdc2, 10, 110 - workload_graph_points.at(0), NULL);
+            for (int i = 1; i <= 9; ++i)
+            {
+                LineTo(hdc2, 10 + (i - 1) * 50, 110 - workload_graph_points.at(i - 1));
+            }
+            MoveToEx(hdc2, 550, 110 - memory_graph_points.at(0), NULL);
+            for (int i = 1; i <= 9; ++i)
+            {
+                LineTo(hdc2, 550 + 10 + (i - 1) * 50, 110 - memory_graph_points.at(i - 1));
+            }
+            ReleaseDC(hwnd, hdc2);
+        }
 
         // Восстанавливаем предыдущее перо и освобождаем созданное
         SelectObject(hdc, oldPen);
@@ -153,8 +175,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         int width = LOWORD(lParam);
         int height = HIWORD(lParam);
-        SetWindowPos(workloadText, NULL, width / 2 - 500, height / 2 - 100, 500, 200, SWP_NOZORDER);
-        SetWindowPos(memoryText, NULL, width / 2 + 100, height / 2 - 100, 500, 200, SWP_NOZORDER);
+        SetWindowPos(workloadText, NULL, width / 2 - 500, height / 2 + 50, 400, 100, SWP_NOZORDER);
+        SetWindowPos(memoryText, NULL, width / 2 + 100, height / 2 + 50, 400, 100, SWP_NOZORDER);
     }
     case WM_COMMAND:
     {
@@ -206,6 +228,16 @@ DWORD WINAPI startMonitoring(LPVOID lpParam)
             InvalidateRect(mainHwnd, NULL, TRUE);
             needToRedrawRects = false;
             iters = 0;
+            memory_graph_points.push_back(memory);
+            if (memory_graph_points.size() == 10)
+            {
+                memory_graph_points.erase(memory_graph_points.begin());
+            }
+            workload_graph_points.push_back(workload);
+            if (workload_graph_points.size() == 10)
+            {
+                workload_graph_points.erase(workload_graph_points.begin());
+            }
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(msRefresh));
     }
