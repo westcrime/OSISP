@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-#include "BaseWindow.cpp"
+#include "ArchivateWindow.h"
 
 #define choosePath 1101
 #define extract 1102

@@ -89,10 +89,12 @@ LRESULT ArchivateWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         break;
     }
     case WM_COMMAND:
+    {
         switch (wParam)
         {
         case choosePath:
         {
+            lstrcpyn(m_wfilePath, _T(""), MAX_PATH);
             OPENFILENAME ofn;
             ZeroMemory(&ofn, sizeof(ofn));
             ofn.lStructSize = sizeof(ofn);
@@ -137,16 +139,22 @@ LRESULT ArchivateWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
             }
             if (compressFile(m_hwnd, m_wfilePath, (destPath + ".gz").c_str()))
             {
-                MessageBox(m_hwnd, L"Файл успешно архивирован!", L"Архивация", MB_ICONINFORMATION);
+                MessageBox(m_hwnd, L"Процесс архивирования успешно запущен!", L"Архивация", MB_ICONINFORMATION);
             }
             break;
         }
-        
+
         default:
         {
             break;
         }
         }
+    }
+    case WM_CLOSE:
+    {
+        ShowWindow(m_hwnd, SW_HIDE);
+        break;
+    }
     default:
     {
         return DefWindowProc(m_hwnd, uMsg, wParam, lParam);

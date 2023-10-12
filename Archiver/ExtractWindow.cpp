@@ -113,6 +113,7 @@ LRESULT ExtractWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         break;
     }
     case WM_COMMAND:
+    {
         switch (wParam)
         {
         case choosePath:
@@ -197,7 +198,7 @@ LRESULT ExtractWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             if (extractFile(m_hwnd, filePath, wcstring))
             {
-                MessageBox(m_hwnd, L"Файл успешно извлечен!", L"Извлечение", MB_ICONINFORMATION);
+                MessageBox(m_hwnd, L"Процесс извлечения успешно запущен!", L"Извлечение", MB_ICONINFORMATION);
             }
             delete[] wcstring;
             break;
@@ -205,6 +206,13 @@ LRESULT ExtractWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         default:
             break;
         }
+        break;
+    }
+    case WM_CLOSE:
+    {
+        ShowWindow(m_hwnd, SW_HIDE);
+        break;
+    }
     default:
     {
         return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
