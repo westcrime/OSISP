@@ -149,6 +149,7 @@ LRESULT ArchivateWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
             break;
         }
         }
+        break;
     }
     case WM_CLOSE:
     {
