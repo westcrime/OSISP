@@ -11,7 +11,8 @@ bool compressFile(HWND hwnd, LPCWSTR sourceFilePath, const char* destFilePath) {
     }
 
     gzFile destFile = gzopen(destFilePath, "wb");
-    if (!destFile) {
+    if (!destFile) 
+    {
         MessageBox(hwnd, L"Не удалось открыть файл для записи", L"Архивация", MB_ICONERROR);
         CloseHandle(hSourceFile);
         return false;

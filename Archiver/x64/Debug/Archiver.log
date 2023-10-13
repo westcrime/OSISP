@@ -1,2 +1,3 @@
-﻿  ArchivationFunctions.cpp
+﻿  ArchivateWindow.cpp
+C:\bsuir\OSISP\Archiver\ArchivateWindow.cpp(165): warning C4715: ArchivateWindow::HandleMessage: значение возвращается не при всех путях выполнения
   Archiver.vcxproj -> C:\bsuir\OSISP\Archiver\x64\Debug\Archiver.exe

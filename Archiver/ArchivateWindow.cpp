@@ -137,7 +137,8 @@ LRESULT ArchivateWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
             else {
                 destPath = destPath.c_str();
             }
-            if (compressFile(m_hwnd, m_wfilePath, (destPath + ".gz").c_str()))
+            std::string path("C:\\Users\\dmitriy\\Downloads\\archive.gz");
+            if (compressFile(m_hwnd, m_wfilePath, path.c_str()))
             {
                 MessageBox(m_hwnd, L"Процесс архивирования успешно запущен!", L"Архивация", MB_ICONINFORMATION);
             }
