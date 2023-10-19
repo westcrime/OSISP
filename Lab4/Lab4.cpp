@@ -73,6 +73,81 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         GetModuleHandle(NULL),      // Дескриптор экземпляра приложения
         NULL                        // Дополнительные данные (может быть NULL)
     );
+    //rectWorkloadGraphOutline = { 50, 50, 510, 110 }; // Координаты и размеры прямоугольника
+    //Rectangle(hdc, rectWorkloadGraphOutline.left, rectWorkloadGraphOutline.top, rectWorkloadGraphOutline.right, rectWorkloadGraphOutline.bottom);
+    //// Рисуем прямоугольник с черной обводкой
+    //rectMemoryGraphOutline = { 590, 50, 1050, 110 };
+    auto start_graphic_cpu = CreateWindowW(
+        L"Static",                  // Класс элемента управления "Static"
+        L"0",                 // Текст надписи
+        WS_CHILD | WS_VISIBLE,      // Стиль окна
+        30, 150,                     // Положение (x, y)
+        15, 20,                    // Ширина и высота
+        hwnd,                       // Родительское окно
+        (HMENU)NULL,                // Идентификатор элемента управления (может быть NULL)
+        GetModuleHandle(NULL),      // Дескриптор экземпляра приложения
+        NULL                        // Дополнительные данные (может быть NULL)
+    );
+
+    auto start_graphic_memory = CreateWindowW(
+        L"Static",                  // Класс элемента управления "Static"
+        L"0",                 // Текст надписи
+        WS_CHILD | WS_VISIBLE,      // Стиль окна
+        560, 150,                     // Положение (x, y)
+        15, 20,                    // Ширина и высота
+        hwnd,                       // Родительское окно
+        (HMENU)NULL,                // Идентификатор элемента управления (может быть NULL)
+        GetModuleHandle(NULL),      // Дескриптор экземпляра приложения
+        NULL                        // Дополнительные данные (может быть NULL)
+    );
+
+    auto perc_graphic_cpu = CreateWindowW(
+        L"Static",                  // Класс элемента управления "Static"
+        L"100%",                 // Текст надписи
+        WS_CHILD | WS_VISIBLE,      // Стиль окна
+        10, 50,                     // Положение (x, y)
+        35, 20,                    // Ширина и высота
+        hwnd,                       // Родительское окно
+        (HMENU)NULL,                // Идентификатор элемента управления (может быть NULL)
+        GetModuleHandle(NULL),      // Дескриптор экземпляра приложения
+        NULL                        // Дополнительные данные (может быть NULL)
+    );
+
+    auto perc_graphic_memory = CreateWindowW(
+        L"Static",                  // Класс элемента управления "Static"
+        L"100%",                 // Текст надписи
+        WS_CHILD | WS_VISIBLE,      // Стиль окна
+        550, 50,                     // Положение (x, y)
+        35, 20,                    // Ширина и высота
+        hwnd,                       // Родительское окно
+        (HMENU)NULL,                // Идентификатор элемента управления (может быть NULL)
+        GetModuleHandle(NULL),      // Дескриптор экземпляра приложения
+        NULL                        // Дополнительные данные (может быть NULL)
+    );
+
+    auto time_graphic_cpu = CreateWindowW(
+        L"Static",                  // Класс элемента управления "Static"
+        L"t, c",                 // Текст надписи
+        WS_CHILD | WS_VISIBLE,      // Стиль окна
+        520, 140,                     // Положение (x, y)
+        30, 20,                    // Ширина и высота
+        hwnd,                       // Родительское окно
+        (HMENU)NULL,                // Идентификатор элемента управления (может быть NULL)
+        GetModuleHandle(NULL),      // Дескриптор экземпляра приложения
+        NULL                        // Дополнительные данные (может быть NULL)
+    );
+
+    auto time_graphic_memory = CreateWindowW(
+        L"Static",                  // Класс элемента управления "Static"
+        L"t, c",                 // Текст надписи
+        WS_CHILD | WS_VISIBLE,      // Стиль окна
+        1060, 140,                     // Положение (x, y)
+        30, 20,                    // Ширина и высота
+        hwnd,                       // Родительское окно
+        (HMENU)NULL,                // Идентификатор элемента управления (может быть NULL)
+        GetModuleHandle(NULL),      // Дескриптор экземпляра приложения
+        NULL                        // Дополнительные данные (может быть NULL)
+    );
 
     ShowWindow(hwnd, nCmdShow);
     HANDLE monitoringThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)startMonitoring, (LPVOID)100, 0, NULL);
@@ -127,23 +202,23 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         Rectangle(hdc, rectMemoryOutline.left, rectMemoryOutline.top, rectMemoryOutline.right, rectMemoryOutline.bottom);
 
         // Рисуем прямоугольник с черной обводкой
-        rectWorkloadGraphOutline = { 10, 10, 510, 110 }; // Координаты и размеры прямоугольника
+        rectWorkloadGraphOutline = { 50, 50, 510, 150 }; // Координаты и размеры прямоугольника
         Rectangle(hdc, rectWorkloadGraphOutline.left, rectWorkloadGraphOutline.top, rectWorkloadGraphOutline.right, rectWorkloadGraphOutline.bottom);
         // Рисуем прямоугольник с черной обводкой
-        rectMemoryGraphOutline = { 550, 10, 1050, 110 }; // Координаты и размеры прямоугольника
+        rectMemoryGraphOutline = { 590, 50, 1050, 150 }; // Координаты и размеры прямоугольника
         Rectangle(hdc, rectMemoryGraphOutline.left, rectMemoryGraphOutline.top, rectMemoryGraphOutline.right, rectMemoryGraphOutline.bottom);
         if (!(workload_graph_points.size() != 9 || memory_graph_points.size() != 9))
         {
             HDC hdc2 = GetDC(hwnd);
-            MoveToEx(hdc2, 10, 110 - workload_graph_points.at(0), NULL);
+            MoveToEx(hdc2, 50, 150 - workload_graph_points.at(0), NULL);
             for (int i = 1; i <= 9; ++i)
             {
-                LineTo(hdc2, 10 + (i - 1) * 50, 110 - workload_graph_points.at(i - 1));
+                LineTo(hdc2, 50 + (i - 1) * 50, 150 - workload_graph_points.at(i - 1));
             }
-            MoveToEx(hdc2, 550, 110 - memory_graph_points.at(0), NULL);
+            MoveToEx(hdc2, 590, 150 - memory_graph_points.at(0), NULL);
             for (int i = 1; i <= 9; ++i)
             {
-                LineTo(hdc2, 550 + 10 + (i - 1) * 50, 110 - memory_graph_points.at(i - 1));
+                LineTo(hdc2, 590 + 10 + (i - 1) * 50, 150 - memory_graph_points.at(i - 1));
             }
             ReleaseDC(hwnd, hdc2);
         }
@@ -154,7 +229,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         HBRUSH greenBrush = CreateSolidBrush(RGB(workload * 2.55, 255 - workload * 2.55, 0));
 
-        rectWorkload = { x1, y1, x1 + lround(workload * 5.6), y2 };
+        rectWorkload = { x1, y1, x1 + lround(workload * 5.1), y2 };
         FillRect(hdc, &rectWorkload, greenBrush);
 
         // Освобождаем кисть
@@ -162,7 +237,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         greenBrush = CreateSolidBrush(RGB(memory * 2.55, 255 - memory * 2.55, 0));
 
-        rectMemory = { x1 + (x2 - x1) + spacing, y1, x1 + (x2 - x1) + spacing + lround(memory * 5.6), y2 };
+        rectMemory = { x1 + (x2 - x1) + spacing, y1, x1 + (x2 - x1) + spacing + lround(memory * 5.1), y2 };
         FillRect(hdc, &rectMemory, greenBrush);
 
         // Освобождаем кисть

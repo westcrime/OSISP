@@ -1,2 +1,26 @@
-﻿  LINK : не найден или не выполнена сборка C:\bsuir\OSISP\Lab4\x64\Debug\Lab4.exe при последней инкрементной компоновке; выполняется полная компоновка
+﻿  Lab4.cpp
+C:\bsuir\OSISP\Lab4\Lab4.cpp(213,36): warning C4244: аргумент: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+C:\bsuir\OSISP\Lab4\Lab4.cpp(216,53): warning C4244: аргумент: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+C:\bsuir\OSISP\Lab4\Lab4.cpp(218,37): warning C4244: аргумент: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+C:\bsuir\OSISP\Lab4\Lab4.cpp(221,59): warning C4244: аргумент: преобразование "_Ty" в "int", возможна потеря данных
+          with
+          [
+              _Ty=double
+          ]
+C:\bsuir\OSISP\Lab4\Lab4.cpp(265,9): warning C4065: оператор switch содержит метку "default", но не содержит ни одной метки "case"
+C:\bsuir\OSISP\Lab4\Lab4.cpp(277,21): warning C4311: приведение типов: усечение указателя из "LPVOID" в "int"
+C:\bsuir\OSISP\Lab4\Lab4.cpp(277,21): warning C4302: приведение типов: усечение из "LPVOID" к "int"
+C:\bsuir\OSISP\Lab4\Lab4.cpp(272): warning C4715: WindowProc: значение возвращается не при всех путях выполнения
   Lab4.vcxproj -> C:\bsuir\OSISP\Lab4\x64\Debug\Lab4.exe
